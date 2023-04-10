@@ -4,18 +4,21 @@ import java.util.Date;
 
 public class Ticket {
     private String name;
+    private Boolean complete;
     private Date dateRequested;
     private String description;
     private String techAssigned;
     private Date dateComplete;
     private String notes;
 
-    Ticket(String name) {
+    Ticket(String name, Boolean complete) {
         this.name = name;
+        this.complete = complete;
     }
 
-    // Ticket(String name, Date dateRequested, String description, String techAssigned, Date dateComplete, String notes) {
+    // Ticket(String name, Boolean complete, Date dateRequested, String description, String techAssigned, Date dateComplete, String notes) {
     //     this.name = name;
+    //     this.complete = complete;
     //     this.dateRequested = dateRequested;
     //     this.description = description;
     //     this.techAssigned = techAssigned;
@@ -70,5 +73,13 @@ public class Ticket {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
     }
 }

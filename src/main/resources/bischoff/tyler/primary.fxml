@@ -11,7 +11,8 @@
          <Button fx:id="primaryButton" text="Refresh" onAction="#switchToSecondary"/>
          <TableView fx:id="ticketTable" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
             <columns>
-               <TableColumn fx:id="ticketRequests" text="Ticket Requests" prefWidth="${ticketTable.width}"/>
+               <TableColumn fx:id="ticketRequestsName" text="Ticket Title" prefWidth="${ticketTable.width*0.8}" reorderable="false" resizable="false"/>
+               <TableColumn fx:id="ticketRequestsCompleted" text="Done" prefWidth="${ticketTable.width*0.2}" reorderable="false" resizable="false"/>
             </columns>
          </TableView>
       </VBox>

@@ -35,23 +35,33 @@ public class PrimaryController {
     private TableView<Ticket> ticketTable;
 
     @FXML
-    private TableColumn<Ticket, String> ticketRequests;
+    private TableColumn<Ticket, String> ticketRequestsName;
+
+    @FXML
+    private TableColumn<Ticket, Boolean> ticketRequestsCompleted;
+
 
     public void initialize() {
-        ticketRequests.setCellValueFactory(new PropertyValueFactory<Ticket, String>("name"));
+        ticketRequestsName.setCellValueFactory(new PropertyValueFactory<Ticket, String>("name"));
+        ticketRequestsName.setSortable(false);
+        ticketRequestsCompleted.setSortable(false);
+        ticketRequestsCompleted.setCellValueFactory(new PropertyValueFactory<Ticket, Boolean>("complete"));
 
+        RefreshTableData();
         
-        
-
-        ticketTable.setItems(FXCollections.observableArrayList(RefreshData()));
     }
 
 
-    private List<Ticket> RefreshData() {
+    private void RefreshTableData() {
         List<Ticket> data = new ArrayList<>();
-        data.add(new Ticket("cum"));
-        data.add(new Ticket("in"));
-        data.add(new Ticket("me"));
-        return data;
+        data.add(new Ticket("Tyler", false));
+        data.add(new Ticket("Loves", true));
+        data.add(new Ticket("Bandy", true));
+    
+
+        //Sort the data by complete
+        data.sort(Comparator.comparing(Ticket::getComplete));
+
+        ticketTable.setItems(FXCollections.observableArrayList(data));
     }
 }
