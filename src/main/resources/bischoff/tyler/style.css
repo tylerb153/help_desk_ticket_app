@@ -1,6 +1,17 @@
 .button {
-    -fx-pref-height: 100px;
+    -fx-pref-height: 50px;
     -fx-pref-width: 200px;
-    -fx-font-size: 2em;
+    -fx-font-size: 150%;
     font-size: 100%;
+}
+
+.list-cell {
+    -fx-font-size: 125%;
+    font-size: 200%;
+    -fx-background-color: white;
+    background-color: white;
+}
+
+#addModifyButtons {
+    -fx-pref-width: 95px;
 }
