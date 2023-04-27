@@ -2,40 +2,65 @@ package bischoff.tyler;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import java.util.*;
 
-public class PrimaryController {
-
-    @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("primary");
-        System.out.println("Refreshed");
-    }
-    
+public class PrimaryController {    
     @FXML
     private void filter() {
         System.out.println("Filter Button Pushed");
     }
 
     @FXML
-    private void add() {
+    private void add() throws IOException {
         System.out.println("Add Button Pushed");
+
+        Node rootNode = HBox;
+        rootNode.setDisable(true);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("popup.fxml"));
+        VBox root = loader.load();
+        Scene scene = new Scene(root);
+        Stage popupStage = new Stage();
+        popupStage.setScene(scene);
+        popupStage.showAndWait();
+
+        rootNode.setDisable(false);
         //add stuff to sql table
         RefreshTableData();
     }
 
     @FXML
-    private void modify() {
+    private void modify() throws IOException {
         System.out.println("Modify Button Pushed");
+        
         Ticket ticketSelected = ticketTable.getSelectionModel().getSelectedItem();
         if (ticketSelected != null) {
-            ticketSelected.setTechAssigned("bandy"); //do modification stuff
-            RefreshListData(ticketSelected);
+            Node rootNode = HBox;
+            rootNode.setDisable(true);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("popup.fxml"));
+            VBox root = loader.load();
+            PopupController controller = loader.getController();
+            controller.initialize(ticketSelected);
+            Scene scene = new Scene(root);
+            Stage popupStage = new Stage();
+            popupStage.setScene(scene);
+            popupStage.showAndWait();
+
+            rootNode.setDisable(false);
         }
+        RefreshTableData();
     }
 
     @FXML
@@ -52,6 +77,9 @@ public class PrimaryController {
     }
 
     @FXML
+    private HBox HBox;
+
+    @FXML
     private TableView<Ticket> ticketTable;
 
     @FXML
@@ -63,11 +91,11 @@ public class PrimaryController {
     @FXML
     private ListView<String> detailsList;
 
-    Ticket placeholderTicket = new Ticket("Tyler", false);
+    Ticket placeholderTicket = new Ticket("Tyler", true, "12/15/01", "Bussy", "Bandy", "45/63/36", "Benis");
 
     public void initialize() {
         //Table Setup
-        ticketRequestsName.setCellValueFactory(new PropertyValueFactory<Ticket, String>("name"));
+        ticketRequestsName.setCellValueFactory(new PropertyValueFactory<Ticket, String>("title"));
         ticketRequestsName.setSortable(false);
         ticketRequestsCompleted.setSortable(false);
         ticketRequestsCompleted.setCellValueFactory(new PropertyValueFactory<Ticket, Boolean>("complete"));
@@ -107,4 +135,6 @@ public class PrimaryController {
 
         detailsList.setItems(details);
     }
+
+
 }

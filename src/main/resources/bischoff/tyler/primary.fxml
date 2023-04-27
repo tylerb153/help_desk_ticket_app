@@ -6,30 +6,29 @@
 
 <?import javafx.geometry.Insets?>
 
-<HBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bischoff.tyler.PrimaryController">
-      <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
-         <Button fx:id="primaryButton" text="Refresh" onAction="#switchToSecondary"/>
-         <TableView fx:id="ticketTable" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" onMouseClicked="#tableClicked">
-            <columns>
-               <TableColumn fx:id="ticketRequestsName" text="Ticket Title" prefWidth="${ticketTable.width*0.8}" reorderable="false" resizable="false"/>
-               <TableColumn fx:id="ticketRequestsCompleted" text="Done" prefWidth="${ticketTable.width*0.19}" reorderable="false" resizable="false"/>
-            </columns>
-         </TableView>
-      </VBox>
+<HBox fx:id="HBox" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bischoff.tyler.PrimaryController">
+   <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+      <TableView fx:id="ticketTable" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" onMouseClicked="#tableClicked">
+         <columns>
+            <TableColumn fx:id="ticketRequestsName" text="Ticket Title" prefWidth="${ticketTable.width*0.8}" reorderable="false" resizable="false"/>
+            <TableColumn fx:id="ticketRequestsCompleted" text="Done" prefWidth="${ticketTable.width*0.19}" reorderable="false" resizable="false"/>
+         </columns>
+      </TableView>
+   </VBox>
 
-      <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="30" stylesheets="@style.css">
-         <!-- <Button fx:id="filterButton" text="Filter" onAction="#filter"/> -->
-         <HBox alignment="CENTER" spacing="10">
-            <Button fx:id="addButton" text="Add" onAction="#add" id="addModifyButtons"/>
-            <Button fx:id="modifyButton" text="Modify" onAction="#modify" id="addModifyButtons"/>
-         </HBox>
-         <Button fx:id="deleteButton" text="Delete" onAction="#delete"/>
-         <ListView fx:id="detailsList" disable="true"/>
+   <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="30" stylesheets="@style.css">
+      <!-- <Button fx:id="filterButton" text="Filter" onAction="#filter"/> -->
+      <HBox alignment="CENTER" spacing="10">
+         <Button fx:id="addButton" text="Add" onAction="#add" id="addModifyButtons"/>
+         <Button fx:id="modifyButton" text="Modify" onAction="#modify" id="addModifyButtons"/>
+      </HBox>
+      <Button fx:id="deleteButton" text="Delete" onAction="#delete"/>
+      <ListView fx:id="detailsList" disable="true"/>
 
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding> 
-      </VBox>
+      <padding>
+         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      </padding> 
+   </VBox>
 
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

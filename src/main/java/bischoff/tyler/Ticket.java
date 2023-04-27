@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public class Ticket {
-    private String name;
+    private String title;
     private Boolean complete;
     private String dateRequested;
     private String description;
@@ -14,28 +14,28 @@ public class Ticket {
     private String dateComplete;
     private String notes;
 
-    Ticket(String name, Boolean complete) {
-        this.name = name;
+    Ticket(String title, Boolean complete) {
+        this.title = title;
         this.complete = complete;
     }
 
-    // Ticket(String name, Boolean complete, String dateRequested, String description, String techAssigned, String dateComplete, String notes) {
-    //     this.name = name;
-    //     this.complete = complete;
-    //     this.dateRequested = dateRequested;
-    //     this.description = description;
-    //     this.techAssigned = techAssigned;
-    //     this.dateComplete = dateComplete;
-    //     this.notes = notes;
-    // }
+    Ticket(String title, Boolean complete, String dateRequested, String description, String techAssigned, String dateComplete, String notes) {
+        this.title = title;
+        this.complete = complete;
+        this.dateRequested = dateRequested;
+        this.description = description;
+        this.techAssigned = techAssigned;
+        this.dateComplete = dateComplete;
+        this.notes = notes;
+    }
     
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String title) {
+        this.title = title;
     }
 
     public String getDateRequested() {
@@ -90,7 +90,7 @@ public class Ticket {
         
         List<String> list = new ArrayList<>();
 
-        list.add("Title: " + name);
+        list.add("Title: " + title);
         list.add("Date Requested: " + dateRequested);
         if (complete) {
             list.add("Date Completed: " + dateComplete);

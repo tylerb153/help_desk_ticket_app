@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bischoff.tyler.PopupController">
+    <HBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+        <VBox HBox.hgrow="ALWAYS">
+            <Label text="Title" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+            <TextField fx:id="titleTextField" promptText="Enter Title" />
+            <Label text="Date Requested" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+            <TextField fx:id="dateRequestedTextField" promptText="Enter Date Requested" />
+            <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+        <VBox HBox.hgrow="ALWAYS">
+            <Label text="Tech Assigned" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+            <TextField fx:id="techAssignedTextField" promptText="Enter the Assigned Tech" />
+            <Label text="Date Complete" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+            <TextField fx:id="dateCompleteTextField" promptText="Leave blank if not complete" />
+        
+            <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </HBox>
+    <VBox>
+        <Label text="Description" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+        <TextField fx:id="descriptionTextField" promptText="Enter a description of the ticket issue" />
+        <Label text="Notes" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+        <TextField fx:id="notesTextField" promptText="Enter any notes about the ticket" />
+
+        <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+        </padding>
+    </VBox>
+    <HBox alignment="CENTER" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="10">
+        <Button fx:id="cancelButton" text="Cancel" onAction="#cancel" style="-fx-font-size: 15;" prefWidth="150" />
+        <Button fx:id="saveButton" text="Save" onAction="#save" style="-fx-font-size: 15;" prefWidth="150" />
+    </HBox>
+    
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
