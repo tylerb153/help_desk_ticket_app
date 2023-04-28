@@ -14,7 +14,7 @@ public class Ticket {
     private String techAssigned;
     private String dateComplete;
     private String notes;
-    
+
     Ticket(int id, String title, Boolean complete, String dateRequested, String description, String techAssigned, String dateComplete, String notes) {
         this.id = id;
         this.title = title;
@@ -25,8 +25,15 @@ public class Ticket {
         this.dateComplete = dateComplete;
         this.notes = notes;
     }
-    
 
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -100,5 +107,16 @@ public class Ticket {
         list.add("Notes: " + notes);
 
         return list;
+    }
+
+    public String toString() {
+        String isComplete;
+        if (complete) {
+            isComplete = dateComplete;
+        }
+        else {
+            isComplete = "Not Complete";
+        }
+        return id + ", " + title + ": " + description + ", " + isComplete;
     }
 }

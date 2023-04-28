@@ -23,7 +23,12 @@
          <Button fx:id="modifyButton" text="Modify" onAction="#modify" id="addModifyButtons"/>
       </HBox>
       <Button fx:id="deleteButton" text="Delete" onAction="#delete"/>
-      <ListView fx:id="detailsList" disable="true"/>
+      
+      <ScrollPane fx:id="scrollPane" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+        <content>
+            <ListView fx:id="detailsList" disable="true"/>
+        </content>
+    </ScrollPane>
 
       <padding>
          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

@@ -9,8 +9,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.*;
@@ -67,14 +69,33 @@ public class PrimaryController {
     @FXML
     private void delete() {
         System.out.println("Delete Button Pushed");
+        Ticket ticketSelected = ticketTable.getSelectionModel().getSelectedItem();
+        Statement stmt = startSQLStatement();
+        if (ticketSelected != null && stmt != null) {
+            System.out.println(ticketSelected.toString());
+            String sqlDelete = "Delete from Tickets Where id = " + ticketSelected.getId();
+            try {
+                stmt.execute(sqlDelete);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        RefreshTableData();
+
     }
 
     @FXML
-    private void tableClicked(){
+    private void tableClicked(MouseEvent event){
         Ticket ticketSelected = ticketTable.getSelectionModel().getSelectedItem();
-        if (ticketSelected != null) {
+        if (ticketSelected != null && event.getTarget().toString().compareTo("TableColumn$1$1[id=ticketRequestsName, styleClass=cell indexed-cell table-cell table-column]'null'") != 0) {
             RefreshListData(ticketSelected);
         }
+        else {
+            ticketTable.getSelectionModel().clearSelection();
+            RefreshTableData();
+        }
+        
     }
 
     @FXML
@@ -92,6 +113,9 @@ public class PrimaryController {
     @FXML
     private ListView<String> detailsList;
 
+    @FXML
+    private ScrollPane scrollPane;
+
     private List<Ticket> listOfTickets;
 
     public void initialize() {     
@@ -100,6 +124,19 @@ public class PrimaryController {
         ticketRequestsName.setSortable(false);
         ticketRequestsCompleted.setSortable(false);
         ticketRequestsCompleted.setCellValueFactory(new PropertyValueFactory<Ticket, Boolean>("complete"));
+
+        //Setup Text Wrap for ListView
+        detailsList.setCellFactory(lv -> {
+            ListCell<String> cell = new ListCell<>();
+            Text text = new Text();
+            cell.setPrefWidth(detailsList.getWidth() - 2);
+            text.wrappingWidthProperty().bind(cell.widthProperty());
+            text.textProperty().bind(cell.itemProperty());
+            cell.setGraphic(text);
+            return cell ;
+        });
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         RefreshTableData();
     }
@@ -113,12 +150,19 @@ public class PrimaryController {
         List<Ticket> data = new ArrayList<>();
         //Connect to database
         try (
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", "Tyler", "");
-            Statement stmt = conn.createStatement();
+            
+            Statement stmt = startSQLStatement();
         ) {
+            if (stmt == null) {
+                throw new SQLException();
+            }
+
+            //Select everything from the table
             String sqlSelect = "select * from Tickets";
             ResultSet rset = stmt.executeQuery(sqlSelect);
+            //Add the tickets to the list
             while (rset.next()) {
+                data.add(new Ticket(rset.getInt("id"), rset.getString("title"), rset.getBoolean("complete"), rset.getString("dateRequested"), rset.getString("description"), rset.getString("techAssigned"), rset.getString("dateComplete"), rset.getString("notes")));
             }
 
 
@@ -126,15 +170,13 @@ public class PrimaryController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    
-    
 
-
-
+        listOfTickets = data;
         //Sort the data by complete
-        data.sort(Comparator.comparing(Ticket::getComplete));
-
-        ticketTable.setItems(FXCollections.observableArrayList(data));
+        listOfTickets.sort(Comparator.comparing(Ticket::getComplete));
+        //list the tickets in the table
+        ticketTable.setItems(FXCollections.observableArrayList(listOfTickets));
+        RefreshListData(null);
     }
 
     private void RefreshListData(Ticket ticketSelected) {
@@ -148,6 +190,19 @@ public class PrimaryController {
         }
 
         detailsList.setItems(details);
+    }
+
+    private Statement startSQLStatement() {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", "Tyler", "");
+            Statement stmt = conn.createStatement();
+            return stmt;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 
