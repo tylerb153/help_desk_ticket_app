@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public class Ticket {
+    private int id;
     private String title;
     private Boolean complete;
     private String dateRequested;
@@ -13,13 +14,9 @@ public class Ticket {
     private String techAssigned;
     private String dateComplete;
     private String notes;
-
-    Ticket(String title, Boolean complete) {
-        this.title = title;
-        this.complete = complete;
-    }
-
-    Ticket(String title, Boolean complete, String dateRequested, String description, String techAssigned, String dateComplete, String notes) {
+    
+    Ticket(int id, String title, Boolean complete, String dateRequested, String description, String techAssigned, String dateComplete, String notes) {
+        this.id = id;
         this.title = title;
         this.complete = complete;
         this.dateRequested = dateRequested;

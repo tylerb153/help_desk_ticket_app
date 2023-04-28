@@ -14,8 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.*;
+import java.sql.*;
 
-public class PrimaryController {    
+public class PrimaryController {  
     @FXML
     private void filter() {
         System.out.println("Filter Button Pushed");
@@ -91,9 +92,9 @@ public class PrimaryController {
     @FXML
     private ListView<String> detailsList;
 
-    Ticket placeholderTicket = new Ticket("Tyler", true, "12/15/01", "Bussy", "Bandy", "45/63/36", "Benis");
+    private List<Ticket> listOfTickets;
 
-    public void initialize() {
+    public void initialize() {     
         //Table Setup
         ticketRequestsName.setCellValueFactory(new PropertyValueFactory<Ticket, String>("title"));
         ticketRequestsName.setSortable(false);
@@ -110,8 +111,21 @@ public class PrimaryController {
 
     private void RefreshTableData() {
         List<Ticket> data = new ArrayList<>();
-        data.add(placeholderTicket);
-        data.add(new Ticket("Bandy", false));
+        //Connect to database
+        try (
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", "Tyler", "");
+            Statement stmt = conn.createStatement();
+        ) {
+            String sqlSelect = "select * from Tickets";
+            ResultSet rset = stmt.executeQuery(sqlSelect);
+            while (rset.next()) {
+            }
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     
     
 
