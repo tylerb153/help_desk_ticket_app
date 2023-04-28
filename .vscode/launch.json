@@ -16,7 +16,7 @@
             "request": "launch",
             "mainClass": "bischoff.tyler/bischoff.tyler.App",
             "projectName": "help_desk_ticket_app",
-            "vmArgs": "-cp \".:/Users/tyler/Documents/dev/Java/Help Desk Ticket App/help_desk_ticket_app/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar\""
+            "vmArgs": "-cp \".:$HOME/Documents/dev/Java/Help Desk Ticket App/help_desk_ticket_app/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar\""
 
 
         }
