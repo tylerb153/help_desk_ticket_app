@@ -18,6 +18,8 @@ import java.sql.Statement;
 public class App extends Application {
 
     private static Scene scene;
+    public static String user;
+    public static String password;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -28,7 +30,7 @@ public class App extends Application {
 
     public static Statement startSQLStatement() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", "Tyler", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", user, "");
             Statement stmt = conn.createStatement();
             return stmt;
         } catch (SQLException e) {

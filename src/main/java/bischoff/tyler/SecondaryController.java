@@ -7,6 +7,9 @@ public class SecondaryController {
 
     @FXML
     private void switchToPrimary() throws IOException {
-        App.setRoot("popup");
+        App.user = "Tyler";
+        App.password = "";
+
+        App.setRoot("Primary");
     }
 }
