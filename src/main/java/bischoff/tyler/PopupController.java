@@ -4,11 +4,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class PopupController {
     
     public void initialize() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/dd/yyyy");
+        String formattedDate = currentDate.format(formatter);
+        dateRequestedTextField.setText(formattedDate);
 
     }
 
@@ -71,10 +77,15 @@ public class PopupController {
 
     private void add(Statement stmt, String dateComplete, Boolean isComplete) {
         try {
-            stmt.execute(String.format("INSERT INTO Tickets (title, techAssigned, complete, dateRequested, description, dateComplete, notes) " +
-            "VALUES ('%s', '%s', %b, '%s', '%s', '%s', '%s');", 
-            titleTextField.getText(), techAssignedTextField.getText(), isComplete, dateRequestedTextField.getText(), descriptionTextField.getText(), dateComplete, notesTextField.getText()));
-
+            stmt.execute(String.format("INSERT INTO Tickets (title, techAssigned, complete, dateRequested, description, dateComplete, notes) " + 
+                "VALUES ('%s', '%s', %b, '%s', '%s', '%s', '%s')", 
+                titleTextField.getText().replace("'", "''"),
+                techAssignedTextField.getText().replace("'", "''"),
+                isComplete,
+                dateRequestedTextField.getText().replace("'", "''"),
+                descriptionTextField.getText().replace("'", "''"), 
+                dateCompleteTextField.getText().replace("'", "''"), 
+                notesTextField.getText().replace("'", "''")));
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -83,8 +94,15 @@ public class PopupController {
 
     private void modify(Statement stmt, String dateComplete, Boolean isComplete, Ticket ticketToModify) {
         try {
-            stmt.execute(String.format("UPDATE Tickets SET title = '%s', techAssigned = '%s', complete = %b, dateRequested = '%s', description = '%s', dateComplete = '%s', notes = '%s' WHERE id = %d;",
-            titleTextField.getText(), techAssignedTextField.getText(), isComplete, dateRequestedTextField.getText(), descriptionTextField.getText(), dateCompleteTextField.getText(), notesTextField.getText(), ticketToModify.getId()));
+            stmt.execute(String.format("UPDATE Tickets SET title='%s', techAssigned='%s', complete=%b, dateRequested='%s', description='%s', dateComplete='%s', notes='%s' WHERE id=%d",
+                titleTextField.getText().replace("'", "''"), 
+                techAssignedTextField.getText().replace("'", "''"), 
+                isComplete, 
+                dateRequestedTextField.getText().replace("'", "''"), 
+                descriptionTextField.getText().replace("'", "''"), 
+                dateCompleteTextField.getText().replace("'", "''"), 
+                notesTextField.getText().replace("'", "''"), 
+                ticketToModify.getId()));
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
