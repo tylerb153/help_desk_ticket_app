@@ -6,6 +6,8 @@ import javafx.scene.control.TextField;
 
 public class SecondaryController {
 
+    //Variables
+    
     @FXML
     private TextField usernameTextField;
     @FXML
@@ -13,9 +15,9 @@ public class SecondaryController {
 
     @FXML
     private void switchToPrimary() throws IOException {
-        App.user = usernameTextField.getText();
-        App.password = passwordTextField.getText();
+        App.user = usernameTextField.getText(); //Sets the SQL Username in App.java
+        App.password = passwordTextField.getText(); //Sets the SQL Password in App.java
 
-        App.setRoot("primary");
+        App.setRoot("primary"); //switches to the "Main" page
     }
 }

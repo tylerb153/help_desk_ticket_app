@@ -18,24 +18,24 @@ import java.sql.Statement;
 public class App extends Application {
 
     private static Scene scene;
-    public static String user;
-    public static String password;
+    public static String user; //SQL username
+    public static String password; //SQL password
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException { //Starts the application
         scene = new Scene(loadFXML("secondary"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }
 
-    public static Statement startSQLStatement() {
+    public static Statement startSQLStatement() { //Returns an SQL Statement for the database ticketdb
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", user, "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", user, password);
             Statement stmt = conn.createStatement();
             return stmt;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            System.out.println("Error in startSQLStatement");
         }
         return null;
     

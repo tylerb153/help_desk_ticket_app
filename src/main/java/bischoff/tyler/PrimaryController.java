@@ -18,19 +18,15 @@ import javafx.stage.Stage;
 import java.util.*;
 import java.sql.*;
 
-public class PrimaryController {  
+public class PrimaryController {  //Main App Page
     @FXML
-    private void filter() {
-        System.out.println("Filter Button Pushed");
-    }
-
-    @FXML
-    private void add() throws IOException {
+    private void add() throws IOException { //Add Button Pushed, calls initialize() in PopupController.java
         System.out.println("Add Button Pushed");
 
         Node rootNode = HBox;
-        rootNode.setDisable(true);
+        rootNode.setDisable(true); //Disables interaction on the "primary" page
 
+        //Set up and display a popup with the popup.fxml style
         FXMLLoader loader = new FXMLLoader(getClass().getResource("popup.fxml"));
         VBox root = loader.load();
         Scene scene = new Scene(root);
@@ -38,47 +34,50 @@ public class PrimaryController {
         popupStage.setScene(scene);
         popupStage.showAndWait();
 
-        rootNode.setDisable(false);
-        //add stuff to sql table
-        RefreshTableData();
+        rootNode.setDisable(false); //Enables interaction on the "primary" page
+
+        RefreshTableData(); //Refreshes the data in the TableView
     }
 
     @FXML
-    private void modify() throws IOException {
+    private void modify() throws IOException { //Modify Button Pushed, calls initialize(ticketToModify) in PopupController.java
         System.out.println("Modify Button Pushed");
         
+        //Get the current ticket that is selected in the TableView
         Ticket ticketSelected = ticketTable.getSelectionModel().getSelectedItem();
-        if (ticketSelected != null) {
+        if (ticketSelected != null) { //If a ticket is selected create a popup
             Node rootNode = HBox;
-            rootNode.setDisable(true);
+            rootNode.setDisable(true); //Disables interaction on the "primary" page
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("popup.fxml"));
             VBox root = loader.load();
-            PopupController controller = loader.getController();
-            controller.initialize(ticketSelected);
+            PopupController controller = loader.getController(); //Gets the controller
+            controller.initialize(ticketSelected); //calls initiallize(ticketSelected) instead of initialize()
             Scene scene = new Scene(root);
             Stage popupStage = new Stage();
             popupStage.setScene(scene);
             popupStage.showAndWait();
 
-            rootNode.setDisable(false);
+            rootNode.setDisable(false); //Enables interaction on the "primary" page
         }
-        RefreshTableData();
+        RefreshTableData(); //Refreshes the data in the TableView
     }
 
     @FXML
-    private void delete() {
+    private void delete() { //Delete Button Pushed, deletes the selected ticket
         System.out.println("Delete Button Pushed");
+
+        //Get current ticket selected in the table
         Ticket ticketSelected = ticketTable.getSelectionModel().getSelectedItem();
-        Statement stmt = App.startSQLStatement();
-        if (ticketSelected != null && stmt != null) {
+        Statement stmt = App.startSQLStatement(); //Log into SQL Database
+        if (ticketSelected != null && stmt != null) { //If a ticket is selected and there's an SQL Statement then delete the ticket
             System.out.println(ticketSelected.toString());
-            String sqlDelete = "Delete from Tickets Where id = " + ticketSelected.getId();
+            String sqlDelete = "Delete from Tickets Where id = " + ticketSelected.getId(); //SQL DELETE using the id of the selected ticket
             try {
                 stmt.execute(sqlDelete);
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
+                System.out.println("Error in delete()");
             }
         }
         RefreshTableData();
@@ -86,33 +85,32 @@ public class PrimaryController {
     }
 
     @FXML
-    private void tableClicked(MouseEvent event){
+    private void tableClicked(MouseEvent event){ //Table Clicked, handles selecting/deselecting the table
+        //Gets the ticket that was selected
         Ticket ticketSelected = ticketTable.getSelectionModel().getSelectedItem();
+        //If a ticket is selected pass it to the ListView
         if (ticketSelected != null && event.getTarget().toString().compareTo("TableColumn$1$1[id=ticketRequestsName, styleClass=cell indexed-cell table-cell table-column]'null'") != 0) {
             RefreshListData(ticketSelected);
         }
         else {
+            //Deselects item if no ticket is selected
             ticketTable.getSelectionModel().clearSelection();
             RefreshTableData();
         }
         
     }
 
+    //Variables
     @FXML
     private HBox HBox;
-
     @FXML
     private TableView<Ticket> ticketTable;
-
     @FXML
     private TableColumn<Ticket, String> ticketRequestsName;
-
     @FXML
     private TableColumn<Ticket, Boolean> ticketRequestsCompleted;
-
     @FXML
     private ListView<String> detailsList;
-
     @FXML
     private ScrollPane scrollPane;
 
@@ -135,6 +133,8 @@ public class PrimaryController {
             cell.setGraphic(text);
             return cell ;
         });
+
+        //Setup scrolling in ScrollPane
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
@@ -167,8 +167,8 @@ public class PrimaryController {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            System.out.println("Error in RefreshTableData()");
         }
 
         listOfTickets = data;
@@ -176,20 +176,21 @@ public class PrimaryController {
         listOfTickets.sort(Comparator.comparing(Ticket::getComplete));
         //list the tickets in the table
         ticketTable.setItems(FXCollections.observableArrayList(listOfTickets));
+        //Refreshes the list with no selected ticket
         RefreshListData(null);
     }
 
-    private void RefreshListData(Ticket ticketSelected) {
+    private void RefreshListData(Ticket ticketSelected) { //Edits values in the ListView/Details Window
         ObservableList<String> details = FXCollections.observableArrayList();
         
-        if (ticketSelected != null) {
+        if (ticketSelected != null) { //If theres a ticket selected call the ticket's getStringList() or display nothing is selected
             details.addAll(ticketSelected.getStringList());
         }
         else {
             details.add("Nothing Selected");
         }
 
-        detailsList.setItems(details);
+        detailsList.setItems(details); //Sets the display
     }
 
 

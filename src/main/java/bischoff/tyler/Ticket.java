@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public class Ticket {
+    //Ticket Properties/Details
     private int id;
     private String title;
     private Boolean complete;
@@ -15,6 +16,7 @@ public class Ticket {
     private String dateComplete;
     private String notes;
 
+    //Constructor
     Ticket(int id, String title, Boolean complete, String dateRequested, String description, String techAssigned, String dateComplete, String notes) {
         this.id = id;
         this.title = title;
@@ -26,6 +28,7 @@ public class Ticket {
         this.notes = notes;
     }
 
+    //Getters and Setters
     public int getId() {
         return id;
     }
@@ -90,6 +93,7 @@ public class Ticket {
         this.complete = complete;
     }
 
+    //Sends a list with the details formatted for display in the ListView
     public List<String> getStringList() {
         
         List<String> list = new ArrayList<>();
@@ -109,6 +113,7 @@ public class Ticket {
         return list;
     }
 
+    //A toString that includes the id and title used for debugging
     public String toString() {
         String isComplete;
         if (complete) {
