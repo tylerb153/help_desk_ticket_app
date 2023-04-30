@@ -70,7 +70,7 @@ public class PrimaryController {
     private void delete() {
         System.out.println("Delete Button Pushed");
         Ticket ticketSelected = ticketTable.getSelectionModel().getSelectedItem();
-        Statement stmt = startSQLStatement();
+        Statement stmt = App.startSQLStatement();
         if (ticketSelected != null && stmt != null) {
             System.out.println(ticketSelected.toString());
             String sqlDelete = "Delete from Tickets Where id = " + ticketSelected.getId();
@@ -151,7 +151,7 @@ public class PrimaryController {
         //Connect to database
         try (
             
-            Statement stmt = startSQLStatement();
+            Statement stmt = App.startSQLStatement();
         ) {
             if (stmt == null) {
                 throw new SQLException();
@@ -190,19 +190,6 @@ public class PrimaryController {
         }
 
         detailsList.setItems(details);
-    }
-
-    private Statement startSQLStatement() {
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", "Tyler", "");
-            Statement stmt = conn.createStatement();
-            return stmt;
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-
     }
 
 

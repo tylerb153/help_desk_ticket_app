@@ -7,6 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * JavaFX App
@@ -20,6 +24,19 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static Statement startSQLStatement() {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", "Tyler", "");
+            Statement stmt = conn.createStatement();
+            return stmt;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    
     }
 
     static void setRoot(String fxml) throws IOException {
